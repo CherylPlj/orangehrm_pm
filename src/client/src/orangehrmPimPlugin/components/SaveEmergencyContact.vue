@@ -23,7 +23,16 @@
       {{ $t('pim.save_emergency_contact') }}
     </oxd-text>
     <oxd-divider />
+    
+    <!-- Enhanced Emergency Contact Form -->
     <oxd-form :loading="isLoading" @submit-valid="onSave">
+      
+      <!-- Basic Information Section -->
+      <oxd-text class="orangehrm-sub-title" tag="h6">
+        {{ $t('pim.basic_information') }}
+      </oxd-text>
+      <oxd-divider />
+      
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -31,6 +40,7 @@
               v-model="contact.name"
               :label="$t('general.name')"
               :rules="rules.name"
+              :placeholder="$t('pim.enter_contact_name')"
               required
             />
           </oxd-grid-item>
@@ -39,11 +49,28 @@
               v-model="contact.relationship"
               :label="$t('pim.relationship')"
               :rules="rules.relationship"
+              :placeholder="$t('pim.enter_relationship')"
               required
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="contact.priority"
+              type="select"
+              :label="$t('pim.priority')"
+              :options="priorityOptions"
+              :placeholder="$t('pim.select_priority')"
             />
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
+
+      <!-- Contact Information Section -->
+      <oxd-text class="orangehrm-sub-title" tag="h6">
+        {{ $t('pim.contact_information') }}
+      </oxd-text>
+      <oxd-divider />
+      
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -51,6 +78,7 @@
               v-model.trim="contact.homePhone"
               :label="$t('pim.home_telephone')"
               :rules="rules.homePhone"
+              :placeholder="$t('pim.enter_home_telephone')"
             />
           </oxd-grid-item>
           <oxd-grid-item>
@@ -58,6 +86,7 @@
               v-model.trim="contact.mobilePhone"
               :label="$t('general.mobile')"
               :rules="rules.mobilePhone"
+              :placeholder="$t('pim.enter_mobile')"
             />
           </oxd-grid-item>
           <oxd-grid-item>
@@ -65,6 +94,108 @@
               v-model.trim="contact.officePhone"
               :label="$t('pim.work_telephone')"
               :rules="rules.officePhone"
+              :placeholder="$t('pim.enter_work_telephone')"
+            />
+          </oxd-grid-item>
+        </oxd-grid>
+      </oxd-form-row>
+
+      <!-- Additional Contact Information -->
+      <oxd-form-row>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="contact.email"
+              :label="$t('general.email')"
+              :rules="rules.email"
+              :placeholder="$t('pim.enter_email')"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="contact.address"
+              :label="$t('pim.address')"
+              :rules="rules.address"
+              :placeholder="$t('pim.enter_address')"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="contact.city"
+              :label="$t('general.city')"
+              :rules="rules.city"
+              :placeholder="$t('pim.enter_city')"
+            />
+          </oxd-grid-item>
+        </oxd-grid>
+      </oxd-form-row>
+
+      <!-- University-specific Information -->
+      <oxd-text class="orangehrm-sub-title" tag="h6">
+        {{ $t('pim.university_information') }}
+      </oxd-text>
+      <oxd-divider />
+      
+      <oxd-form-row>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="contact.department"
+              :label="$t('pim.department')"
+              :rules="rules.department"
+              :placeholder="$t('pim.enter_department')"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="contact.faculty"
+              :label="$t('pim.faculty')"
+              :rules="rules.faculty"
+              :placeholder="$t('pim.enter_faculty')"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="contact.campus"
+              :label="$t('pim.campus')"
+              :rules="rules.campus"
+              :placeholder="$t('pim.enter_campus')"
+            />
+          </oxd-grid-item>
+        </oxd-grid>
+      </oxd-form-row>
+
+      <!-- Additional Information -->
+      <oxd-text class="orangehrm-sub-title" tag="h6">
+        {{ $t('pim.additional_information') }}
+      </oxd-text>
+      <oxd-divider />
+      
+      <oxd-form-row>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="contact.notes"
+              type="textarea"
+              :label="$t('pim.notes')"
+              :rules="rules.notes"
+              :placeholder="$t('pim.enter_notes')"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="contact.isActive"
+              type="checkbox"
+              :label="$t('pim.active')"
+              :option-label="$t('general.yes')"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="contact.isPrimary"
+              type="checkbox"
+              :label="$t('pim.primary_contact')"
+              :option-label="$t('general.yes')"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -90,6 +221,7 @@ import {
   required,
   shouldNotExceedCharLength,
   validPhoneNumberFormat,
+  validEmailFormat,
 } from '@ohrm/core/util/validation/rules';
 
 const emergencyContactModel = {
@@ -98,6 +230,16 @@ const emergencyContactModel = {
   homePhone: '',
   officePhone: '',
   mobilePhone: '',
+  email: '',
+  address: '',
+  city: '',
+  department: '',
+  faculty: '',
+  campus: '',
+  notes: '',
+  priority: '',
+  isActive: true,
+  isPrimary: false,
 };
 
 export default {
@@ -133,7 +275,20 @@ export default {
         ],
         mobilePhone: [validPhoneNumberFormat, shouldNotExceedCharLength(30)],
         officePhone: [validPhoneNumberFormat, shouldNotExceedCharLength(30)],
+        email: [validEmailFormat, shouldNotExceedCharLength(100)],
+        address: [shouldNotExceedCharLength(200)],
+        city: [shouldNotExceedCharLength(100)],
+        department: [shouldNotExceedCharLength(100)],
+        faculty: [shouldNotExceedCharLength(100)],
+        campus: [shouldNotExceedCharLength(100)],
+        notes: [shouldNotExceedCharLength(500)],
+        priority: [shouldNotExceedCharLength(20)],
       },
+      priorityOptions: [
+        {id: 'High', label: this.$t('pim.high')},
+        {id: 'Medium', label: this.$t('pim.medium')},
+        {id: 'Low', label: this.$t('pim.low')},
+      ],
     };
   },
 
@@ -143,6 +298,7 @@ export default {
       this.http
         .create({
           ...this.contact,
+          priority: this.contact.priority?.id,
         })
         .then(() => {
           return this.$toast.saveSuccess();

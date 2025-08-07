@@ -24,7 +24,16 @@
         {{ $t('general.personal_details') }}
       </oxd-text>
       <oxd-divider />
+      
+      <!-- Enhanced Personal Details Form -->
       <oxd-form :loading="isLoading" @submit-valid="onSave">
+        
+        <!-- Basic Information Section -->
+        <oxd-text class="orangehrm-sub-title" tag="h6">
+          {{ $t('pim.basic_information') }}
+        </oxd-text>
+        <oxd-divider />
+        
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -36,23 +45,8 @@
               />
             </oxd-grid-item>
           </oxd-grid>
-          <oxd-grid
-            v-if="showDeprecatedFields"
-            :cols="3"
-            class="orangehrm-full-width-grid"
-          >
-            <oxd-grid-item>
-              <oxd-input-field
-                v-model="employee.nickname"
-                :label="$t('pim.nickname')"
-                :rules="rules.nickname"
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
-
-        <oxd-divider />
-        <oxd-form-row>
+          
+          <!-- University-specific fields -->
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
@@ -60,6 +54,34 @@
                 :label="$t('general.employee_id')"
                 :rules="rules.employeeId"
                 :disabled="!$can.update(`personal_sensitive_information`)"
+                :placeholder="$t('pim.enter_employee_id')"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.studentId"
+                :label="$t('pim.student_id')"
+                :rules="rules.studentId"
+                :placeholder="$t('pim.enter_student_id')"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.facultyId"
+                :label="$t('pim.faculty_id')"
+                :rules="rules.facultyId"
+                :placeholder="$t('pim.enter_faculty_id')"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+          
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.nickname"
+                :label="$t('pim.nickname')"
+                :rules="rules.nickname"
+                :placeholder="$t('pim.enter_nickname')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -67,9 +89,154 @@
                 v-model="employee.otherId"
                 :label="$t('pim.other_id')"
                 :rules="rules.otherId"
+                :placeholder="$t('pim.enter_other_id')"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.academicRank"
+                :label="$t('pim.academic_rank')"
+                :rules="rules.academicRank"
+                :placeholder="$t('pim.enter_academic_rank')"
               />
             </oxd-grid-item>
           </oxd-grid>
+        </oxd-form-row>
+
+        <!-- Personal Information Section -->
+        <oxd-text class="orangehrm-sub-title" tag="h6">
+          {{ $t('pim.personal_information') }}
+        </oxd-text>
+        <oxd-divider />
+        
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <date-input
+                v-model="employee.birthday"
+                :label="$t('pim.date_of_birth')"
+                :rules="rules.birthday"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.gender"
+                type="select"
+                :label="$t('pim.gender')"
+                :options="genderOptions"
+                :rules="rules.gender"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.maritalStatus"
+                type="select"
+                :label="$t('pim.marital_status')"
+                :options="maritalStatuses"
+                :rules="rules.maritalStatus"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+          
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.nationality"
+                type="select"
+                :label="$t('pim.nationality')"
+                :options="nationalities"
+                :rules="rules.nationality"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.bloodType"
+                type="select"
+                :label="$t('pim.blood_type')"
+                :options="bloodTypeOptions"
+                :rules="rules.bloodType"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.religion"
+                :label="$t('pim.religion')"
+                :rules="rules.religion"
+                :placeholder="$t('pim.enter_religion')"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <!-- Academic Information Section -->
+        <oxd-text class="orangehrm-sub-title" tag="h6">
+          {{ $t('pim.academic_information') }}
+        </oxd-text>
+        <oxd-divider />
+        
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.department"
+                :label="$t('pim.department')"
+                :rules="rules.department"
+                :placeholder="$t('pim.enter_department')"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.faculty"
+                :label="$t('pim.faculty')"
+                :rules="rules.faculty"
+                :placeholder="$t('pim.enter_faculty')"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.campus"
+                :label="$t('pim.campus')"
+                :rules="rules.campus"
+                :placeholder="$t('pim.enter_campus')"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+          
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.officeLocation"
+                :label="$t('pim.office_location')"
+                :rules="rules.officeLocation"
+                :placeholder="$t('pim.enter_office_location')"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.officeHours"
+                :label="$t('pim.office_hours')"
+                :rules="rules.officeHours"
+                :placeholder="$t('pim.enter_office_hours')"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.officePhone"
+                :label="$t('pim.office_phone')"
+                :rules="rules.officePhone"
+                :placeholder="$t('pim.enter_office_phone')"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <!-- Legal Documents Section -->
+        <oxd-text class="orangehrm-sub-title" tag="h6">
+          {{ $t('pim.legal_documents') }}
+        </oxd-text>
+        <oxd-divider />
+        
+        <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
@@ -77,6 +244,7 @@
                 :label="$t('pim.driver_license_number')"
                 :rules="rules.drivingLicenseNo"
                 :disabled="!$can.update(`personal_sensitive_information`)"
+                :placeholder="$t('pim.enter_driver_license')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -86,7 +254,16 @@
                 :label="$t('pim.license_expiry_date')"
               />
             </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.passportNumber"
+                :label="$t('pim.passport_number')"
+                :rules="rules.passportNumber"
+                :placeholder="$t('pim.enter_passport_number')"
+              />
+            </oxd-grid-item>
           </oxd-grid>
+          
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item v-if="showSsnField">
               <oxd-input-field
@@ -94,6 +271,7 @@
                 :label="$t('pim.ssn_number')"
                 :rules="rules.ssnNumber"
                 :disabled="!$can.update(`personal_sensitive_information`)"
+                :placeholder="$t('pim.enter_ssn_number')"
               />
             </oxd-grid-item>
             <oxd-grid-item v-if="showSinField">
@@ -102,64 +280,21 @@
                 :label="$t('pim.sin_number')"
                 :rules="rules.sinNumber"
                 :disabled="!$can.update(`personal_sensitive_information`)"
+                :placeholder="$t('pim.enter_sin_number')"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.nationalId"
+                :label="$t('pim.national_id')"
+                :rules="rules.nationalId"
+                :placeholder="$t('pim.enter_national_id')"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
-        <oxd-divider />
-        <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                v-model="employee.nationality"
-                type="select"
-                :label="$t('general.nationality')"
-                :clear="false"
-                :options="nationalities"
-              />
-            </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field
-                v-model="employee.maritalStatus"
-                type="select"
-                :label="$t('pim.marital_status')"
-                :clear="false"
-                :options="maritalStatuses"
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <date-input
-                v-model="employee.birthday"
-                :label="$t('pim.date_of_birth')"
-                :rules="rules.birthday"
-                :disabled="!$can.update(`personal_sensitive_information`)"
-              />
-            </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-group
-                :label="$t('pim.gender')"
-                :classes="{wrapper: '--gender-grouped-field'}"
-              >
-                <oxd-input-field
-                  v-model="employee.gender"
-                  type="radio"
-                  :option-label="$t('general.male')"
-                  value="1"
-                />
-                <oxd-input-field
-                  v-model="employee.gender"
-                  type="radio"
-                  :option-label="$t('general.female')"
-                  value="2"
-                />
-              </oxd-input-group>
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
-
+        <!-- Additional Information Section -->
         <oxd-divider v-if="showDeprecatedFields" />
         <oxd-form-row v-if="showDeprecatedFields">
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
@@ -168,6 +303,7 @@
                 v-model="employee.militaryService"
                 :label="$t('pim.military_service')"
                 :rules="rules.militaryService"
+                :placeholder="$t('pim.enter_military_service')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -175,6 +311,14 @@
                 v-model="employee.smoker"
                 type="checkbox"
                 :label="$t('pim.smoker')"
+                :option-label="$t('general.yes')"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.disability"
+                type="checkbox"
+                :label="$t('pim.disability')"
                 :option-label="$t('general.yes')"
               />
             </oxd-grid-item>
@@ -207,18 +351,32 @@ const employeeModel = {
   middleName: '',
   lastName: '',
   employeeId: '',
+  studentId: '',
+  facultyId: '',
   otherId: '',
   drivingLicenseNo: '',
   drivingLicenseExpiredDate: '',
   ssnNumber: '',
   sinNumber: '',
+  passportNumber: '',
+  nationalId: '',
   nationality: [],
   maritalStatus: [],
   birthday: '',
   gender: '',
+  bloodType: '',
+  religion: '',
   nickname: '',
   smoker: '',
   militaryService: '',
+  disability: '',
+  academicRank: '',
+  department: '',
+  faculty: '',
+  campus: '',
+  officeLocation: '',
+  officeHours: '',
+  officePhone: '',
 };
 
 export default {
@@ -272,12 +430,24 @@ export default {
         middleName: [shouldNotExceedCharLength(30)],
         lastName: [required, shouldNotExceedCharLength(30)],
         employeeId: [shouldNotExceedCharLength(10)],
+        studentId: [shouldNotExceedCharLength(20)],
+        facultyId: [shouldNotExceedCharLength(20)],
         otherId: [shouldNotExceedCharLength(30)],
         drivingLicenseNo: [shouldNotExceedCharLength(30)],
         ssnNumber: [shouldNotExceedCharLength(30)],
         sinNumber: [shouldNotExceedCharLength(30)],
+        passportNumber: [shouldNotExceedCharLength(30)],
+        nationalId: [shouldNotExceedCharLength(30)],
         nickname: [shouldNotExceedCharLength(30)],
         militaryService: [shouldNotExceedCharLength(30)],
+        academicRank: [shouldNotExceedCharLength(50)],
+        department: [shouldNotExceedCharLength(100)],
+        faculty: [shouldNotExceedCharLength(100)],
+        campus: [shouldNotExceedCharLength(100)],
+        officeLocation: [shouldNotExceedCharLength(100)],
+        officeHours: [shouldNotExceedCharLength(100)],
+        officePhone: [shouldNotExceedCharLength(20)],
+        religion: [shouldNotExceedCharLength(50)],
         birthday: [validDateFormat(this.userDateFormat)],
         drivingLicenseExpiredDate: [validDateFormat(this.userDateFormat)],
       },
@@ -285,6 +455,21 @@ export default {
         {id: 'Single', label: this.$t('pim.single')},
         {id: 'Married', label: this.$t('pim.married')},
         {id: 'Other', label: this.$t('pim.other')},
+      ],
+      genderOptions: [
+        {id: 'Male', label: this.$t('pim.male')},
+        {id: 'Female', label: this.$t('pim.female')},
+        {id: 'Other', label: this.$t('pim.other')},
+      ],
+      bloodTypeOptions: [
+        {id: 'A+', label: 'A+'},
+        {id: 'A-', label: 'A-'},
+        {id: 'B+', label: 'B+'},
+        {id: 'B-', label: 'B-'},
+        {id: 'AB+', label: 'AB+'},
+        {id: 'AB-', label: 'AB-'},
+        {id: 'O+', label: 'O+'},
+        {id: 'O-', label: 'O-'},
       ],
     };
   },
@@ -295,28 +480,6 @@ export default {
       .getAll()
       .then((response) => {
         this.updateModel(response);
-        return this.http.request({
-          method: 'GET',
-          url: '/api/v2/pim/employees',
-        });
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.employeeId.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              item.employeeId?.trim() &&
-              String(item.employeeId).toLowerCase() == String(v).toLowerCase(),
-          );
-          if (index > -1) {
-            const {empNumber} = data[index];
-            return empNumber != this.empNumber
-              ? this.$t('pim.employee_id_exists')
-              : true;
-          } else {
-            return true;
-          }
-        });
       })
       .finally(() => {
         this.isLoading = false;
@@ -334,6 +497,8 @@ export default {
             firstName: this.employee.firstName,
             middleName: this.employee.middleName,
             employeeId: this.employee.employeeId,
+            studentId: this.employee.studentId,
+            facultyId: this.employee.facultyId,
             otherId: this.employee.otherId,
             drivingLicenseNo: this.employee.drivingLicenseNo,
             drivingLicenseExpiredDate: this.employee.drivingLicenseExpiredDate,
@@ -341,6 +506,10 @@ export default {
             maritalStatus: this.employee.maritalStatus?.id,
             birthday: this.employee.birthday,
             nationalityId: this.employee.nationality?.id,
+            bloodType: this.employee.bloodType,
+            religion: this.employee.religion,
+            passportNumber: this.employee.passportNumber,
+            nationalId: this.employee.nationalId,
             ssnNumber: this.showSsnField ? this.employee.ssnNumber : undefined,
             sinNumber: this.showSinField ? this.employee.sinNumber : undefined,
             nickname: this.showDeprecatedFields
@@ -352,6 +521,16 @@ export default {
             militaryService: this.showDeprecatedFields
               ? this.employee.militaryService
               : undefined,
+            disability: this.showDeprecatedFields
+              ? this.employee.disability
+              : undefined,
+            academicRank: this.employee.academicRank,
+            department: this.employee.department,
+            faculty: this.employee.faculty,
+            campus: this.employee.campus,
+            officeLocation: this.employee.officeLocation,
+            officeHours: this.employee.officeHours,
+            officePhone: this.employee.officePhone,
           },
         })
         .then((response) => {
@@ -371,6 +550,12 @@ export default {
       );
       this.employee.nationality = this.nationalities.find(
         (item) => item.id === data.nationality?.id,
+      );
+      this.employee.gender = this.genderOptions.find(
+        (item) => item.id === data.gender,
+      );
+      this.employee.bloodType = this.bloodTypeOptions.find(
+        (item) => item.id === data.bloodType,
       );
     },
   },
