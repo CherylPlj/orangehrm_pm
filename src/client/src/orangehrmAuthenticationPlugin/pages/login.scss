@@ -30,20 +30,36 @@
 .orangehrm-login-button {
   flex: 1;
   padding: 1rem 0;
+  background-color: var(--oxd-primary-one-color);
+  color: var(--oxd-white-color);
+  border-radius: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
 }
 .orangehrm-login-title {
   text-align: center;
   font-weight: 800;
   margin-bottom: 1rem;
+  color: var(--oxd-primary-one-color);
 }
 .orangehrm-login-pwreset {
   margin: 1rem 0;
   text-align: center;
   font-weight: 600;
   & a {
-    color: $oxd-primary-one-color;
+    color: var(--oxd-primary-one-color);
     text-decoration: none;
   }
+}
+.orangehrm-login-form input[type="text"],
+.orangehrm-login-form input[type="password"] {
+  background-color: var(--oxd-primary-one-lighten-30-color);
+  border-radius: 0.5rem;
+  border: none;
+  padding: 0.75rem 1rem;
+  color: var(--oxd-primary-font-color);
 }
 
 .orangehrm-login-forgot {
