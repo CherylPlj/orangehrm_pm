@@ -19,7 +19,7 @@
 <template>
   <oxd-input-field
     type="select"
-    label="Current OrangeHRM Version"
+    label="Current Blue Eagles HRM Version"
     :options="options"
   />
 </template>

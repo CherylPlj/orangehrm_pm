@@ -17,58 +17,60 @@
  */
  -->
 <template>
-  <oxd-form class="orangehrm-installer-page" @submit="toggleModal">
-    <oxd-text tag="h5" class="orangehrm-installer-page-title">
-      Welcome to OrangeHRM Starter Version {{ productversion }} Setup Wizard
-    </oxd-text>
-    <br />
-    <oxd-text tag="p" class="orangehrm-installer-page-content">
-      This setup wizard will guide through the steps necessary to install/
-      upgrade OrangeHRM Starter components and their dependencies.
-    </oxd-text>
-    <br />
-    <oxd-text tag="p" class="orangehrm-installer-page-content">
-      Select an installation type;
-    </oxd-text>
-    <br />
-    <oxd-form-row class="orangehrm-installer-page-row">
-      <oxd-radio-input
-        v-model="selected"
-        value="install"
-        option-label="Fresh Installation"
-      />
-      <oxd-text tag="p" class="orangehrm-installer-page-content --label">
-        Choose this option if you are installing OrangeHRM Starter for the first
-        time
+  <div>
+    <oxd-form class="orangehrm-installer-page" @submit="toggleModal">
+      <oxd-text tag="h5" class="orangehrm-installer-page-title">
+        Welcome to Blue Eagles HRM Version {{ productversion }} Setup Wizard
       </oxd-text>
-    </oxd-form-row>
-
-    <oxd-form-row class="orangehrm-installer-page-row">
-      <oxd-radio-input
-        v-model="selected"
-        value="upgrade"
-        option-label="Upgrading an Existing Installation"
-      />
-      <oxd-text tag="p" class="orangehrm-installer-page-content --label">
-        Choose this option if you are already using a prior version of OrangeHRM
-        Starter (version 4.0 onwards) and would like to upgrade to
-        <b>version {{ productversion }}</b>
+      <br />
+      <oxd-text tag="p" class="orangehrm-installer-page-content">
+        This setup wizard will guide through the steps necessary to install/
+        upgrade Blue Eagles HRM components and their dependencies.
       </oxd-text>
-    </oxd-form-row>
+      <br />
+      <oxd-text tag="p" class="orangehrm-installer-page-content">
+        Select an installation type;
+      </oxd-text>
+      <br />
+      <oxd-form-row class="orangehrm-installer-page-row">
+        <oxd-radio-input
+          v-model="selected"
+          value="install"
+          option-label="Fresh Installation"
+        />
+        <oxd-text tag="p" class="orangehrm-installer-page-content --label">
+          Choose this option if you are installing Blue Eagles HRM for the first
+          time
+        </oxd-text>
+      </oxd-form-row>
 
-    <oxd-text tag="p" class="orangehrm-installer-page-content">
-      Click <b>Next</b> to continue
-    </oxd-text>
+      <oxd-form-row class="orangehrm-installer-page-row">
+        <oxd-radio-input
+          v-model="selected"
+          value="upgrade"
+          option-label="Upgrading an Existing Installation"
+        />
+        <oxd-text tag="p" class="orangehrm-installer-page-content --label">
+          Choose this option if you are already using a prior version of Blue
+          Eagles HRM (version 4.0 onwards) and would like to upgrade to
+          <b>version {{ productversion }}</b>
+        </oxd-text>
+      </oxd-form-row>
 
-    <oxd-form-actions class="orangehrm-installer-page-action">
-      <oxd-button display-type="secondary" label="Next" type="submit" />
-    </oxd-form-actions>
-  </oxd-form>
-  <database-config-dialog
-    v-if="showModal"
-    :product-version="productversion"
-    @close-model="closeModel"
-  ></database-config-dialog>
+      <oxd-text tag="p" class="orangehrm-installer-page-content">
+        Click <b>Next</b> to continue
+      </oxd-text>
+
+      <oxd-form-actions class="orangehrm-installer-page-action">
+        <oxd-button display-type="secondary" label="Next" type="submit" />
+      </oxd-form-actions>
+    </oxd-form>
+    <database-config-dialog
+      v-if="showModal"
+      :product-version="productversion"
+      @close-model="closeModel"
+    ></database-config-dialog>
+  </div>
 </template>
 
 <script>

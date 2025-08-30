@@ -23,7 +23,7 @@
     </oxd-text>
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
-      OrangeHRM Starter Version {{ productversion }} has been successfully
+      Blue Eagles HRM Version {{ productversion }} has been successfully
       installed.
     </oxd-text>
     <br />
@@ -31,7 +31,7 @@
     <oxd-button
       class="orangehrm-installer-complete-button"
       display-type="secondary"
-      label="Launch OrangeHRM"
+      label="Launch Blue Eagles HRM"
       @click="launch"
     />
   </div>

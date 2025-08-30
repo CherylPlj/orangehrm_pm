@@ -18,6 +18,8 @@
 import {createApp} from 'vue';
 import Pages from '@/pages';
 import Components from '@/components';
+
+// Import OXD styles
 import '@ohrm/oxd/fonts.css';
 import '@ohrm/oxd/icons.css';
 import '@ohrm/oxd/style.css';
@@ -28,6 +30,16 @@ const app = createApp({
   components: Pages,
 });
 
-app.use(Components);
+// Register components with error handling
+try {
+  app.use(Components);
+} catch (error) {
+  console.error('Failed to register components:', error);
+}
 
-app.mount('#app');
+// Mount the app with error handling
+try {
+  app.mount('#app');
+} catch (error) {
+  console.error('Failed to mount app:', error);
+}

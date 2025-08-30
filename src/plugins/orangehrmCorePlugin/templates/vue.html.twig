@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block links %}
-  <link rel="icon" href="{{ publicPath }}/dist/favicon.ico?v={{ assetsVersion }}">
+  <link rel="icon" href="{{ publicPath }}/dist/no-text.png">
   <link href="{{ publicPath }}/dist/css/chunk-vendors.css?v={{ assetsVersion }}" rel="preload" as="style">
   <link href="{{ publicPath }}/dist/css/app.css?v={{ assetsVersion }}" rel="preload" as="style">
   <link href="{{ publicPath }}/dist/js/chunk-vendors.js?v={{ assetsVersion }}" rel="preload" as="script">
@@ -23,7 +23,7 @@
 
   <div id="app">
     <oxd-layout
-        home-url="https://www.orangehrm.com/"
+        home-url="#"
         :sidepanel-menu-items="{{ sidePanelMenuItems | json_encode() }}"
         :topbar-menu-items="{{ topMenuItems | json_encode() }}"
         :user="{{ user | json_encode() }}"

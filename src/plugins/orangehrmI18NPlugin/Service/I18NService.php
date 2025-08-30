@@ -258,7 +258,7 @@ class I18NService
      * @param string $langCode
      * @return string
      */
-    public function getETagByLangCode(string $langCode): string
+            public function getETagByLangCode(string $langCode): string
     {
         $cacheKey = $this->generateETagCacheKey($langCode);
         /** @var CacheItem $cacheItem */
@@ -269,7 +269,9 @@ class I18NService
             // Re-fetch cache item once update the cache
             $cacheItem = $this->getCache()->getItem($cacheKey);
         }
-        return $cacheItem->get();
+        $result = $cacheItem->get();
+        // Temporary fix: return empty string if null
+        return $result ?? "";
     }
 
     /**

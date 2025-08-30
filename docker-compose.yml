@@ -1,0 +1,57 @@
+
+services:
+  # MySQL Database - Using existing container
+  # mysql:
+  #   image: mysql:8.0
+  #   container_name: orangehrm-mysql-db
+  #   restart: unless-stopped
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: orangehrm123
+  #     MYSQL_DATABASE: ohrmdb
+  #   volumes:
+  #     - mysql_data:/var/lib/mysql
+  #     - ./mysql/init:/docker-entrypoint-initdb.d
+  #   ports:
+  #     - "3306:3306"
+  #   networks:
+  #     - blue_hr_network
+  #   command: --default-authentication-plugin=mysql_native_password
+
+  # phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: blue_hr_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: orangehrm-mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: orangehrm123
+      MYSQL_ROOT_PASSWORD: orangehrm123
+    ports:
+      - "8081:80"
+    networks:
+      - orangehrm-net
+
+  # Blue HR Application - Using working image
+  blue-hr:
+    image: orangehrm:5.7
+    container_name: blue_hr_app
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    volumes:
+      - ./lib:/var/www/html/lib
+      - ./index.php:/var/www/html/index.php
+      - ./src:/var/www/html/src
+      - ./web:/var/www/html/web
+    networks:
+      - orangehrm-net
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  orangehrm-net:
+    external: true

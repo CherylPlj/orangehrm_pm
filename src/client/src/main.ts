@@ -36,6 +36,11 @@ const app = createApp({
 // Global Register Components
 app.use(components);
 
+// Ensure all page components are globally available
+Object.entries(pages).forEach(([name, component]) => {
+  app.component(name, component);
+});
+
 app.use(toaster, {
   duration: 2500,
   persist: false,
@@ -43,8 +48,9 @@ app.use(toaster, {
   position: 'bottom',
 });
 
+// Get base URL with fallback
 // @ts-expect-error: appGlobal is not in window object by default
-const baseUrl = window.appGlobal.baseUrl;
+const baseUrl = window.appGlobal?.baseUrl || '/web/index.php';
 
 const {i18n, init} = createI18n({
   baseUrl: baseUrl,
@@ -67,4 +73,23 @@ app.config.globalProperties.global = {
   baseUrl,
 };
 
-init().then(() => app.mount('#app'));
+// Initialize with error handling
+init()
+  .then(() => {
+    console.log('OrangeHRM application initialized successfully');
+    app.mount('#app');
+  })
+  .catch((error) => {
+    console.error('Failed to initialize OrangeHRM application:', error);
+    // Show error message to user
+    const appElement = document.getElementById('app');
+    if (appElement) {
+      appElement.innerHTML = `
+        <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+          <h2>OrangeHRM Application Error</h2>
+          <p>Failed to initialize the application. Please check the console for more details.</p>
+          <p>Error: ${error.message}</p>
+        </div>
+      `;
+    }
+  });

@@ -1,56 +1,56 @@
 <template>
-  <oxd-layout
-    :class="{
-      'orangehrm-upgrade-layout': showUpgrade,
-    }"
-    v-bind="$attrs"
-  >
-    <template v-for="(_, name) in $slots" #[name]="slotData">
-      <slot :name="name" v-bind="slotData" />
-    </template>
-    <template v-if="showUpgrade" #topbar-header-right-area>
-      <upgrade-button v-if="showUpgrade" />
-    </template>
-    <template #user-actions>
-      <li>
-        <a
-          href="#"
-          role="menuitem"
-          class="oxd-userdropdown-link"
-          @click="openAboutModel"
-        >
-          {{ $t('general.about') }}
-        </a>
-      </li>
-      <li>
-        <a :href="supportUrl" role="menuitem" class="oxd-userdropdown-link">
-          {{ $t('general.support') }}
-        </a>
-      </li>
-      <li v-if="updatePasswordUrl">
-        <a
-          :href="updatePasswordUrl"
-          role="menuitem"
-          class="oxd-userdropdown-link"
-        >
-          {{ $t('general.change_password') }}
-        </a>
-      </li>
-      <li>
-        <a :href="logoutUrl" role="menuitem" class="oxd-userdropdown-link">
-          {{ $t('general.logout') }}
-        </a>
-      </li>
-    </template>
-    <template #nav-actions>
-      <oxd-icon-button
-        name="question-lg"
-        :title="$t('general.help')"
-        @click="onClickSupport"
-      />
-    </template>
-  </oxd-layout>
-  <about v-if="showAboutModel" @close="closeAboutModel"></about>
+  <div>
+    <oxd-layout
+      :class="{
+        'orangehrm-upgrade-layout': showUpgrade,
+      }"
+      v-bind="$attrs"
+    >
+      <template v-for="(_, name) in $slots" #[name]="slotData">
+        <slot :name="name" v-bind="slotData" />
+      </template>
+      <!-- Upgrade button removed for Blue Eagles HR -->
+      <template #user-actions>
+        <li>
+          <a
+            href="#"
+            role="menuitem"
+            class="oxd-userdropdown-link"
+            @click="openAboutModel"
+          >
+            {{ $t('general.about') }}
+          </a>
+        </li>
+        <li>
+          <a :href="supportUrl" role="menuitem" class="oxd-userdropdown-link">
+            {{ $t('general.support') }}
+          </a>
+        </li>
+        <li v-if="updatePasswordUrl">
+          <a
+            :href="updatePasswordUrl"
+            role="menuitem"
+            class="oxd-userdropdown-link"
+          >
+            {{ $t('general.change_password') }}
+          </a>
+        </li>
+        <li>
+          <a :href="logoutUrl" role="menuitem" class="oxd-userdropdown-link">
+            {{ $t('general.logout') }}
+          </a>
+        </li>
+      </template>
+      <template #nav-actions>
+        <oxd-icon-button
+          name="question-lg"
+          :title="$t('general.help')"
+          @click="onClickSupport"
+        />
+      </template>
+    </oxd-layout>
+    <about v-if="showAboutModel" @close="closeAboutModel"></about>
+  </div>
 </template>
 
 <script>
@@ -58,13 +58,13 @@ import {provide, readonly, ref} from 'vue';
 import About from '@/core/pages/About.vue';
 import {OxdLayout} from '@ohrm/oxd';
 import {dateFormatKey} from '@/core/util/composable/useDateFormat';
-import UpgradeButton from '@/core/components/buttons/UpgradeButton.vue';
+// UpgradeButton import removed for Blue Eagles HR
 
 export default {
   components: {
     about: About,
     'oxd-layout': OxdLayout,
-    'upgrade-button': UpgradeButton,
+    // 'upgrade-button': UpgradeButton, // Removed for Blue Eagles HR
   },
   inheritAttrs: false,
   props: {
